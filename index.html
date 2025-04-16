@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Electron + Three.js Demo</title>
+    <style>
+        #mapContainer {
+            position: absolute;
+            z-index: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: auto;
+        }
+        body { margin: 0; overflow: hidden }
+        canvas { display: block;
+            position: absolute;
+            z-index: 1;  /* Three.js 画布在上层 */
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=22823a0ea1c4848bee1f0f15dd5f0368"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/dist/tween.umd.js"></script>
+
+</head>
+<body>
+
+<div id="mapContainer"></div>
+<script src="renderer.js"></script>
+<script src="map.js"></script>
+
+</body>
+</html>
