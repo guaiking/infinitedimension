@@ -8,6 +8,10 @@ const map = new AMap.Map('mapContainer', {
     center: [116.397428, 39.90923]
 });
 
+// 添加卫星图层
+// const satellite = new AMap.TileLayer.Satellite();
+// map.add(satellite);
+
 // 启用地图交互（修改之前禁用的配置）
 map.setStatus({
     scrollWheel: true,    // 允许滚轮缩放
