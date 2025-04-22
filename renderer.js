@@ -482,7 +482,7 @@ class Galaxy {
 
         this.createGalaxy()
 
-        this.camera.position.set(0, 80, 130)
+        this.camera.position.set(0, 100, 150)
         this.camera.lookAt(0, 0, 0)
 
         this.animate()
@@ -557,7 +557,7 @@ class Galaxy {
         // 原有动画效果
         this.particles.rotation.y += 0.002
         this.time = Date.now() * 0.001
-        const scaleFactor = 1 + Math.sin(this.time) * 0.001
+        const scaleFactor = 1 + Math.sin(this.time) * 0.002
 
         const positions = this.particles.geometry.attributes.position.array
         for (let i = 0; i < positions.length; i += 3) {

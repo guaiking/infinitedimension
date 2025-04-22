@@ -2,7 +2,7 @@
 const map = new AMap.Map('mapContainer', {
     viewMode: '3D',      // 必须启用3D模式
     pitch: 55,           // 初始俯仰角
-    rotation: -25,       // 初始旋转角度
+    rotation: 0,       // 初始旋转角度
     showIndoorMap: false,
     zoom: 17,
     center: [116.397428, 39.90923]
@@ -76,6 +76,51 @@ map.on('mouseup', () => {
         speedY *= 0.85;
     }, 16);
 });
+
+const miniMap = new AMap.Map('miniMap', {
+    viewMode: '2D',      // 2D模式
+    zoom: 10,            // 更小的缩放级别
+    center: [116.397428, 39.90923],
+    interactive: false,  // 禁用交互
+    showIndoorMap: false,
+    layers: [            // 使用简化的道路图层
+        new AMap.TileLayer.RoadNet()
+    ]
+});
+
+// 同步主地图和小地图的中心点
+map.on('movestart', updateMiniMap);
+map.on('moveend', updateMiniMap);
+map.on('zoomchange', updateMiniMap);
+
+function updateMiniMap() {
+    miniMap.setCenter(map.getCenter());
+    //miniMap.setZoom(map.getZoom() - 3);  // 小地图显示更广的视野
+}
+
+// 初始同步
+updateMiniMap();
+
+// 添加小地图比例尺控件
+miniMap.addControl(new AMap.Scale({
+    position: 'LB',
+    offset: [10, -10]
+}));
+
+// 添加小地图定位标记
+const marker = new AMap.Marker({
+    position: map.getCenter(),
+    content: '<div style="width:12px;height:12px;background:red;border-radius:50%"></div>'
+});
+miniMap.add(marker);
+
+// 更新标记位置
+map.on('move', () => {
+    marker.setPosition(map.getCenter());
+});
+
 window.amap = map;
+
+
 
 
