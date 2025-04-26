@@ -12,6 +12,25 @@ const map = new AMap.Map('mapContainer', {
 // const satellite = new AMap.TileLayer.Satellite();
 // map.add(satellite);
 
+// map.js 修改边界限制逻辑
+map.on('moveend', () => {
+    const center = map.getCenter()
+
+    // 动态计算边界限制（中国范围示例）
+    const clampedLng = Math.max(73.66, Math.min(135.05, center.lng))
+    const clampedLat = Math.max(3.86, Math.min(53.55, center.lat))
+
+    if (center.lng !== clampedLng || center.lat !== clampedLat) {
+        map.setCenter([clampedLng, clampedLat])
+
+        // 同步重置星旋位置
+        if (window.galaxy) {
+            window.galaxy.particles.position.set(0, 0, 0)
+        }
+    }
+})
+
+
 // 启用地图交互（修改之前禁用的配置）
 map.setStatus({
     scrollWheel: true,    // 允许滚轮缩放
@@ -88,6 +107,26 @@ const miniMap = new AMap.Map('miniMap', {
     ]
 });
 
+// 添加星旋标记
+const starMarker = new AMap.Marker({
+    position: map.getCenter(),
+    content: '<img src="image/marking.png" style="width:24px;height:24px;" id="marking">',
+    offset: new AMap.Pixel(-12, -12)
+});
+miniMap.add(starMarker);
+
+// 同步更新星旋标记位置
+// map.on('move', () => {
+//     starMarker.setPosition(map.getCenter());
+// });
+map.on('movestart', updateStarMarker);
+map.on('moveend', updateStarMarker);
+map.on('zoomchange', updateStarMarker);
+function updateStarMarker() {
+    starMarker.setPosition(map.getCenter());
+}
+updateStarMarker()
+
 // 同步主地图和小地图的中心点
 map.on('movestart', updateMiniMap);
 map.on('moveend', updateMiniMap);
@@ -101,23 +140,17 @@ function updateMiniMap() {
 // 初始同步
 updateMiniMap();
 
-// 添加小地图比例尺控件
+//添加小地图比例尺控件
 miniMap.addControl(new AMap.Scale({
     position: 'LB',
     offset: [10, -10]
 }));
 
-// 添加小地图定位标记
-const marker = new AMap.Marker({
-    position: map.getCenter(),
-    content: '<div style="width:12px;height:12px;background:red;border-radius:50%"></div>'
-});
-miniMap.add(marker);
 
 // 更新标记位置
-map.on('move', () => {
-    marker.setPosition(map.getCenter());
-});
+// map.on('move', () => {
+//     starMarker.setPosition(map.getCenter());
+// });
 
 window.amap = map;
 
