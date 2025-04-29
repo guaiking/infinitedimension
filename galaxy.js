@@ -123,12 +123,12 @@ class GalaxyScene {
         }
 
         // 键盘控制移动
-        if (this.keys['w']) this.particles.position.y += this.movementSpeed
-        if (this.keys['s']) this.particles.position.y -= this.movementSpeed
-        if (this.keys['a']) this.particles.position.x -= this.movementSpeed
-        if (this.keys['d']) this.particles.position.x += this.movementSpeed
-        if (this.keys['q']) this.particles.position.z -= this.movementSpeed
-        if (this.keys['e']) this.particles.position.z += this.movementSpeed
+        if (this.keys['w']||this.keys['W']) this.particles.position.y += this.movementSpeed
+        if (this.keys['s']||this.keys['S']) this.particles.position.y -= this.movementSpeed
+        if (this.keys['a']||this.keys['A']) this.particles.position.x -= this.movementSpeed
+        if (this.keys['d']||this.keys['D']) this.particles.position.x += this.movementSpeed
+        if (this.keys['k']||this.keys['K']) this.particles.position.z -= this.movementSpeed
+        if (this.keys['j']||this.keys['J']) this.particles.position.z += this.movementSpeed
 
         // 原有动画效果
         this.particles.rotation.y += 0.002

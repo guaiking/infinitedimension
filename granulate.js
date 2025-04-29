@@ -133,7 +133,7 @@ class CubeScene {
     init() {
         // 生成15-25个分散立方体
         const positions = []
-        const cubeCount = this.randomInt(20, 30)
+        const cubeCount = this.randomInt(10, 20)
 
         for (let i = 0; i < cubeCount; i++) {
             const { cube, position } = this.createRandomCube(positions, 17)
